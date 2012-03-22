@@ -81,60 +81,72 @@ fi
 # si on decide de ne pas la créer purge termine le script
 goornotgo "créer la base de données pour le projet ? "
 GO=$?
-if [ "$GO" == 1 ] || [ "$GO" == 99 ]; then
+if [ "$GO" == 0 ]; then
+{
+	# CRÉE LA BASE DONNÉ MYSQL POUR LE PROJET
+	# @TODO : remplacé le 'temp_ezinitdb.sql' par une variable
+	# se deplace dans le dossier $WORKPATH
+	cd $WORKPATH
+
+	# copie le fichier $MODELEMYSQL si existe
+	# sinon demande le nom du fichier modele mysql et son chemin
+	if [ -e $MODELEMYSQL ]; then
+		sudo cp -f $MODELEMYSQL temp_ezinitdb.sql
+	else
+	{
+		# demande un chemin pour le modele mysql et copie le fichier donné en prompt si existe
+		# sinon affiche un message d'erreur et quitte le script
+		read -p 'chemin et nom du modele mysql (create database) : ' MODELEMYSQL
+		if [ -e "$MODELEMYSQL" ]; then
+			sudo cp -f $MODELEMYSQL temp_ezinitdb.sql
+		else
+		{
+			echo -e "$RED je n'arrive pas à trouver $MODELEMYSQL"
+			echo -e "La base de donné devra être crée manuellement ! $ENDCOLOR"
+			echo -e "$GREEN ********* end : ezinit.sh *************** $ENDCOLOR"
+			exit 100;
+		}
+		fi
+	}
+	fi
+
+	# remplace les occurences '{NAME}' par le nom du projet
+	sudo sed -i "s/{NAME}/$PROJNAME/g" temp_ezinitdb.sql
+
+	# ouvre le fichier sql crée pour verifier que tout va bien ;)
+	sudo gedit temp_ezinitdb.sql & 
+
+	# attend que la verification manuelle soit terminé (fermeture de gedit)
+	wait
+
+	# se connecte à mysql et execute le create database statement
+	# @TODO permettre la personalisation de la commande
+	mysql -u root < temp_ezinitdb.sql >> result.temp
+	mysql -u root -e "show databases;" >> result.temp
+	# verifie
+	gedit result.temp &
+
+	wait
+
+	rm -fv temp_ezinitdb.sql result.temp
+}
+else
 {
 	echo -e "$GREEN La base de donné devra être crée manuellement."
+}
+fi
+
+# demande si il faut créer un vhost
+# si on decide de ne pas continuer quitte le script
+goornotgo "créer le fichier vhost pour le projet ? "
+GO=$?
+if [ "$GO" == 1 ] || [ "$GO" == 99 ]; then
+{
+	echo -e "$GREEN le fichier vhost devra être crée manuellement"
 	echo -e "********* end : ezvhinit.sh *************** $ENDCOLOR"
 	exit 100;
 }
 fi
-
-# CRÉE LA BASE DONNÉ MYSQL POUR LE PROJET
-# @TODO : remplacé le 'temp_ezinitdb.sql' par une variable
-# se deplace dans le dossier $WORKPATH
-cd $WORKPATH
-
-# copie le fichier $MODELEMYSQL si existe
-# sinon demande le nom du fichier modele mysql et son chemin
-if [ -e $MODELEMYSQL ]; then
-	sudo cp -f $MODELEMYSQL temp_ezinitdb.sql
-else
-{
-	# demande un chemin pour le modele mysql et copie le fichier donné en prompt si existe
-	# sinon affiche un message d'erreur et quitte le script
-	read -p 'chemin et nom du modele mysql (create database) : ' MODELEMYSQL
-	if [ -e "$MODELEMYSQL" ]; then
-		sudo cp -f $MODELEMYSQL temp_ezinitdb.sql
-	else
-	{
-		echo -e "$RED je n'arrive pas à trouver $MODELEMYSQL"
-		echo -e "La base de donné devra être crée manuellement ! $ENDCOLOR"
-		echo -e "$GREEN ********* end : ezinit.sh *************** $ENDCOLOR"
-		exit 100;
-	}
-	fi
-}
-fi
-
-# remplace les occurences '{NAME}' par le nom du projet
-sudo sed -i "s/{NAME}/$PROJNAME/g" temp_ezinitdb.sql
-
-# ouvre le fichier sql crée pour verifier que tout va bien ;)
-sudo gedit temp_ezinitdb.sql & 
-
-# attend que la verification manuelle soit terminé (fermeture de gedit)
-wait
-
-# se connecte à mysql et execute le create database statement
-# @TODO permettre la personalisation de la commande
-mysql -u root < temp_ezinitdb.sql >> result.temp
-mysql -u root -e "show databases;" >> result.temp
-# verifie
-gedit result.temp &
-
-wait
-
-rm -fv temp_ezinitdb.sql result.temp
 
 # se deplace dans le dossier sites-availables
 cd /etc/apache2/sites-available
