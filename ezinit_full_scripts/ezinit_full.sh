@@ -13,7 +13,7 @@ fileordir $EZSOURCE
 TEST=$?
 if [ "$TEST" == 99 ]; then
 	exit 101;
-elif [ "$TEST" != 1 ] && [ "$TEST" == 2 ]; then
+elif [ "$TEST" != 1 ] && [ "$TEST" != 2 ]; then
 	echo -e "$RED la fonction 'fileordir' retourne une valeur inattendu : $TEST $ENDCOLOR"
 	exit 900;
 fi
