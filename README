@@ -10,7 +10,7 @@ Ce script fait :
  - met à jour host dans /etc
 
 
-! Le script utilise gedit, donc si vous ne l'avez pas il faudra l'installer !
+! Le script utilise vim, donc si vous ne l'avez pas il faudra l'installer !
 
 
 Le projet comprends :
@@ -40,7 +40,7 @@ WORKPATH="/data/home/mpasquesi/DEV/" #chemin du dossier de travail
 Le script à lancer est ezinit_full.sh.
 Pendant l'execution du script, on vous demandera le nom du projet, qui sera utilisé pour nommer le dossier de l'instance ezpublish, nommer la base de donné et configurere le vhost.
 L'adresse du site eZPublish sera {nom_du_projet}.local et le BO admin.{nom_du_projet}.local .
-Chaque fois que gedit s'ouvre, c'est pour verifier que le traitement sur le fichier en question c'est bien passé. Si necessaire apporter les eventuelles modifications et puis fermer ! Le script attend la fermeture de gedit pour continuer !
+Chaque fois que vim s'ouvre, c'est pour verifier que le traitement sur le fichier en question c'est bien passé. Si necessaire apporter les eventuelles modifications et puis fermer ! Le script attend la fermeture de vim pour continuer !
 
 
 Dans le cas ou quelque chose c'est mal passé ou si on veut tout refaire,

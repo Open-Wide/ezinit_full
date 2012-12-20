@@ -114,9 +114,9 @@ if [ "$GO" == 0 ]; then
 	sudo sed -i "s/{NAME}/$PROJNAME/g" temp_ezinitdb.sql
 
 	# ouvre le fichier sql crée pour verifier que tout va bien ;)
-	sudo gedit temp_ezinitdb.sql & 
+	sudo vim temp_ezinitdb.sql & 
 
-	# attend que la verification manuelle soit terminé (fermeture de gedit)
+	# attend que la verification manuelle soit terminé (fermeture de vim)
 	wait
 
 	# se connecte à mysql et execute le create database statement
@@ -124,7 +124,7 @@ if [ "$GO" == 0 ]; then
 	mysql -u root < temp_ezinitdb.sql >> result.temp
 	mysql -u root -e "show databases;" >> result.temp
 	# verifie
-	gedit result.temp &
+	vim result.temp &
 
 	wait
 
@@ -181,9 +181,9 @@ sudo sed -i "s@{PATH}@$WEBPATH@g" $VHOST
 sudo sed -i "s/{NAME}/$PROJNAME/g" $VHOST
 
 # ouvre le fichier vhost crée pour verifier que tout va bien ;)
-sudo gedit $VHOST & 
+sudo vim $VHOST & 
 
-# attend que la verification manuelle du vhost soit terminé (fermeture de gedit)
+# attend que la verification manuelle du vhost soit terminé (fermeture de vim)
 wait
 
 # demande si il faut continuer ou pas
@@ -207,7 +207,7 @@ sudo /etc/init.d/apache2 reload
 # met à jour le fichier /etc/hosts
 echo -e "\r$ADRESSEIP    $VHOST\r$ADRESSEIP    admin.$VHOST" | sudo tee -a /etc/hosts
 # ouvre le /etc/hosts pour verification
-sudo gedit /etc/hosts&
+sudo vim /etc/hosts&
 # attend la verification
 wait
 
