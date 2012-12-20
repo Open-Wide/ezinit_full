@@ -64,7 +64,7 @@ fileordir()
 	fi
 }
 
-# @name fileordir
+# @name fileextension
 # retourne l'extension du fichier
 #
 # @ param1 : file

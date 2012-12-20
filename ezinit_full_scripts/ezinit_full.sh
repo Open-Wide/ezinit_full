@@ -2,7 +2,7 @@
 
 # INCLUDES
 source generic_functions.sh
-source ezinit_header.sh
+source ezinit_header.h
 
 # start script
 echo -e "$GREEN ********* start : ezinit.sh *************** $ENDCOLOR"
