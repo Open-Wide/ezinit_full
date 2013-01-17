@@ -114,21 +114,15 @@ if [ "$GO" == 0 ]; then
 	sudo sed -i "s/{NAME}/$PROJNAME/g" temp_ezinitdb.sql
 
 	# ouvre le fichier sql crée pour verifier que tout va bien ;)
-	sudo vim temp_ezinitdb.sql & 
+	sudo vim temp_ezinitdb.sql 
 
 	# attend que la verification manuelle soit terminé (fermeture de vim)
 	wait
 
 	# se connecte à mysql et execute le create database statement
 	# @TODO permettre la personalisation de la commande
-	mysql -u root < temp_ezinitdb.sql >> result.temp
-	mysql -u root -e "show databases;" >> result.temp
-	# verifie
-	vim result.temp &
+	mysql -u root -p19chiave --default-character-set=utf8 < temp_ezinitdb.sql
 
-	wait
-
-	rm -fv temp_ezinitdb.sql result.temp
 }
 else
 {
@@ -181,7 +175,7 @@ sudo sed -i "s@{PATH}@$WEBPATH@g" $VHOST
 sudo sed -i "s/{NAME}/$PROJNAME/g" $VHOST
 
 # ouvre le fichier vhost crée pour verifier que tout va bien ;)
-sudo vim $VHOST & 
+sudo vim $VHOST 
 
 # attend que la verification manuelle du vhost soit terminé (fermeture de vim)
 wait
@@ -207,7 +201,7 @@ sudo /etc/init.d/apache2 reload
 # met à jour le fichier /etc/hosts
 echo -e "\r$ADRESSEIP    $VHOST\r$ADRESSEIP    admin.$VHOST" | sudo tee -a /etc/hosts
 # ouvre le /etc/hosts pour verification
-sudo vim /etc/hosts&
+sudo vim /etc/hosts
 # attend la verification
 wait
 
