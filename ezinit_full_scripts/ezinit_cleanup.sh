@@ -2,7 +2,7 @@
 
 # INCLUDES
 source generic_functions.sh
-source ezinit_header.sh
+source ezinit_header.h
 
 # start script
 echo -e "$GREEN ********* start : ezinit_cleanup.sh *************** $ENDCOLOR"
@@ -13,8 +13,15 @@ read -p 'nom du projet à supprimer? : ' PROJNAME
 # se deplace dans le dossier $WEBPATH
 cd $WEBPATH
 
-# supprime l'instance EZ dans le repertoire des sites web
-sudo rm -rf $PROJNAME
+# demande si il faut supprimer l'instance EZ dans le repertoire des sites web
+goornotgo "est que il faut supprimer l'instance web ? "
+GO=$?
+if [ "$GO" == 0 ]; then
+{
+    # supprime l'instance EZ dans le repertoire des sites web
+    sudo rm -rf $PROJNAME
+}
+fi
 
 # liste les fichiers dans $WEBPATH pour verification
 ls -la $WEBPATH
@@ -32,7 +39,7 @@ goornotgo "est que il y a une base de données à supprimer ? "
 GO=$?
 if [ "$GO" == 0 ]; then
 {
-	mysql $MYSQLCONNECT -e "drop database $PROJNAME;"
+	mysqlexec "e" "drop database $PROJNAME;"
 }
 fi
 

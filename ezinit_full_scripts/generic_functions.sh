@@ -93,7 +93,8 @@ fileextension()
 # @name uncompress
 # decompresse un archive
 #
-# @param1 : 
+# @param1 : fichier source eZPublish 
+# @param2 : extension du fichier
 #
 # @TODO : quoi faire si on a pas passé de parametres ?
 # @TODO : gerer plus de type d'archives et gerer les erreur de shell
@@ -124,3 +125,30 @@ uncompress() {
 }
 
 
+# @name mysqlexec
+# execute des operations mysql
+#
+# @param1 : "f" ou "e"
+# @param : si "f" fichier.sql; si "e" statement
+#
+# @TODO : quoi faire si on a pas passé de parametres ?
+mysqlexec() {
+	if [ "$1" == "f" ]; then
+        if [ "$MYSQLPSWD" == "" ]; then
+            mysql -u $MYSQLUSR --default-character-set=utf8 < "$2"
+        else
+            mysql -u $MYSQLUSR -p$MYSQLPSWD --default-character-set=utf8 < temp_ezinitdb.sql
+        fi
+    elif [ "$1" == "e" ]; then
+        if [ "$MYSQLPSWD" == "" ]; then
+            mysql -u $MYSQLUSR --default-character-set=utf8 -e "$2"
+        else
+            mysql -u $MYSQLUSR -p$MYSQLPSWD --default-character-set=utf8 -e "$2"
+        fi
+	else
+		echo -e "$RED option -$1 n'existe pas ! $ENDCOLOR"
+		return 99
+	fi
+
+	return 0;
+}

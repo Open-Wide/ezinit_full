@@ -121,8 +121,7 @@ if [ "$GO" == 0 ]; then
 
 	# se connecte à mysql et execute le create database statement
 	# @TODO permettre la personalisation de la commande
-	mysql -u root -p19chiave --default-character-set=utf8 < temp_ezinitdb.sql
-
+	mysqlexec "f" "temp_ezinitdb.sql"
 }
 else
 {
