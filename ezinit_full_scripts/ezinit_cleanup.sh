@@ -40,6 +40,7 @@ GO=$?
 if [ "$GO" == 0 ]; then
 {
 	mysqlexec "e" "drop database $PROJNAME;"
+    mysqlexec "e" "show databases;"
 }
 fi
 
@@ -52,6 +53,7 @@ if [ "$GO" == 0 ]; then
 	sudo a2dissite $PROJNAME.local
 	sudo /etc/init.d/apache2 reload
 	sudo rm -f $PROJNAME.local
+    ls -la /tc/apache2/sites-available
 fi
 
 # demande si il faut supprimer les sites dans /etc/hosts
@@ -62,7 +64,7 @@ if [ "$GO" == 0 ]; then
 	sudo sed -i "s/$ADRESSEIP    $PROJNAME.local//g" /etc/hosts
 	sudo sed -i "s/$ADRESSEIP    admin.$PROJNAME.local//g" /etc/hosts
 	# ouvre le /etc/hosts pour verification
-	sudo gedit /etc/hosts&
+	sudo vim /etc/hosts
 	# attend la verification
 	wait
 	# restart apache
