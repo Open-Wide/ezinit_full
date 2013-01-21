@@ -20,6 +20,7 @@ if [ "$GO" == 0 ]; then
 {
     # supprime l'instance EZ dans le repertoire des sites web
     sudo rm -rf $PROJNAME
+    ls -la $WEBPATH
 }
 fi
 
@@ -30,7 +31,7 @@ ls -la $WEBPATH
 goornotgo "est que il faut supprimer un lien symbolic dans /var/www/ ?"
 GO=$?
 if [ "$GO" == 0 ]; then
-	sudo rm -rf /var/www/$PROJNAME
+	sudo rm -rv /var/www/$PROJNAME
 	ls -la /var/www/
 fi
 
