@@ -1,5 +1,6 @@
 #!/bin/bash
 
+##test commentaire
 # INIT VARIABLES
 MODELESDIR="/data/repositories/git/ezinit_full/ezinit_full_modeles/"
 MODELEVH=$MODELESDIR"ez_generic_vhost" #generic vhost
