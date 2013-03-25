@@ -54,7 +54,7 @@ if [ "$GO" == 0 ]; then
 	sudo a2dissite $PROJNAME.local
 	sudo /etc/init.d/apache2 reload
 	sudo rm -f $PROJNAME.local
-    ls -la /tc/apache2/sites-available
+    ls -la /etc/apache2/sites-available
 fi
 
 # demande si il faut supprimer les sites dans /etc/hosts
